@@ -9,35 +9,63 @@ class Payment(object):
     
   def getTotal(self):
     total = 0
+
     if self.shift == "diurno" :
-      if self.hours_worked > 40 :
-        total = 40 * Payment.money_pay
-        extra_hours = self.hours_worked - 40
-        if extra_hours > 9 :
-          total += 9 * (Payment.money_pay * 2) + (extra_hours - 9) * (Payment.money_pay * 3)
-        else:
-          total += extra_hours * (Payment.money_pay * 2)
-      else:
-        total = self.hours_worked * Payment.money_pay
+      total = self.getDiurnoTotal()
     elif self.shift == "nocturno":
-      if self.hours_worked > 35 :
-        total = 35 * Payment.money_pay
-        extra_hours = self.hours_worked - 35
-        if extra_hours > 9 :
-          total += 9 * (Payment.money_pay * 2) + (extra_hours - 9) * (Payment.money_pay * 3)
-        else:
-          total += extra_hours * (Payment.money_pay * 2)
-      else:
-        total = self.hours_worked * Payment.money_pay
+      total = self.getNocturnoTotal()
     elif self.shift == "mixto":
-      if self.hours_worked > 37.5 :
-        total = 37.5 * Payment.money_pay
-        extra_hours = self.hours_worked - 37.5
-        if extra_hours > 9 :
-          total += 9 * (Payment.money_pay * 2) + (extra_hours - 9) * (Payment.money_pay * 3)
-        else:
-          total += extra_hours * (Payment.money_pay * 2)
-      else:
-        total = self.hours_worked * Payment.money_pay
+      total = self.getMixtoTotal()
 
     return total
+
+  def getDiurnoTotal(self)
+    total = 0
+    weekly_hours = 40
+
+    if self.hours_worked > weekly_hours :
+      total = weekly_hours * Payment.money_pay
+      extra_hours = self.hours_worked - weekly_hours
+      
+      if extra_hours > 9 :
+        total += 9 * (Payment.money_pay * 2) + (extra_hours - 9) * (Payment.money_pay * 3)
+      else:
+        total += extra_hours * (Payment.money_pay * 2)
+    else:
+      total = self.hours_worked * Payment.money_pay
+
+    return total
+
+  def getNocturnoTotal(self)
+    total = 0
+    weekly_hours = 35
+
+    if self.hours_worked > weekly_hours :
+      total = weekly_hours * Payment.money_pay
+      extra_hours = self.hours_worked - weekly_hours
+      
+      if extra_hours > 9 :
+        total += 9 * (Payment.money_pay * 2) + (extra_hours - 9) * (Payment.money_pay * 3)
+      else:
+        total += extra_hours * (Payment.money_pay * 2)
+    else:
+      total = self.hours_worked * Payment.money_pay
+
+    return total
+
+  def getMixtoTotal(self)
+    total = 0
+    weekly_hours = 37.5
+
+    if self.hours_worked > weekly_hours :
+      total = weekly_hours * Payment.money_pay
+      extra_hours = self.hours_worked - weekly_hours
+      
+      if extra_hours > 9 :
+        total += 9 * (Payment.money_pay * 2) + (extra_hours - 9) * (Payment.money_pay * 3)
+      else:
+        total += extra_hours * (Payment.money_pay * 2)
+    else:
+      total = self.hours_worked * Payment.money_pay
+
+    return total  
